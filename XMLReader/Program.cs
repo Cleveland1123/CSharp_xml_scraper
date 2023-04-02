@@ -4,15 +4,16 @@
 
 int docYear = 2023;
 
-
-string dataDirectory = @"C:\Users\Cleve\Desktop\cSharp-xml\XMLReader\data";
-if (Directory.Exists(dataDirectory) == false)
+for (int i = 300; i < 365; i++)
 {
-    Directory.CreateDirectory(dataDirectory);
-}
 
-for (int i = 300; i < 320; i++)
-{
+    string dataDirectory = @"C:\Users\Cleve\Desktop\cSharp-xml\XMLReader\data";
+    if (Directory.Exists(dataDirectory) == false)
+    {
+        Directory.CreateDirectory(dataDirectory);
+    }
+
+
     string URL = $"https://www.retsinformation.dk/eli/lta/{docYear}/{i}/xml";
 
     XmlTextReader reader = new XmlTextReader(URL);
@@ -40,10 +41,10 @@ for (int i = 300; i < 320; i++)
 
     string path = @$"C:\Users\Cleve\Desktop\cSharp-xml\XMLReader\data\{documentType}{number}-{year}\";
 
-    XMLElementExtractor.ExtractXMLElementParagraf(paragraf, path, number, year, documentType);
+    XMLElementExtractor.ExtractXMLElementParagrafV2(paragraf, path, number, year, documentType);
     XMLElementExtractor.ExtractXMLElementAendringCentreretParagraf(aendringCentreretParagraf, path, number, year, documentType);
 
-    Thread.Sleep(2500);
+    Thread.Sleep(2000);
+
+
 }
-
-

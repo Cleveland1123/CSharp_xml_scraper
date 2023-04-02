@@ -1,4 +1,6 @@
 ﻿
+using System.Xml.Linq;
+
 namespace XMLReader;
 
 public static class XMLElementExtractor
@@ -9,9 +11,14 @@ public static class XMLElementExtractor
         string pathAndName = path + $"{documentType}{number}-{year}-{currentSection}.txt";
         using (StreamWriter writetext = new StreamWriter(pathAndName))
         {
-            // converts list of strings to string
-            string str = string.Join(" ", lines);
-            writetext.WriteLine(str);
+            //// converts list of strings to string
+            //string str = string.Join(" ", lines);
+            //writetext.WriteLine(str);
+
+            foreach (string line in lines)
+            {
+                writetext.WriteLine(line);
+            }
         }
     }
 
@@ -36,15 +43,70 @@ public static class XMLElementExtractor
                 for (int j = 0; j < paragrafChildNodes.Count; j++)
                 {
                     XmlNodeList child = paragrafChildNodes[j].ChildNodes;
+
                     for (int k = 0; k < child.Count; k++)
                     {
                         lines.Add(child[k].InnerText);
                     }
+
                 }
+
                 WriteFile(lines, path, number, year, documentType, currentSection);
             }
         }
                
+    }
+
+
+    public static void ExtractXMLElementParagrafV2(XmlNodeList paragraf, string path, string number, string year, string documentType)
+    {
+        if (paragraf.Count != 0)
+        {
+            for (int i = 0; i < paragraf.Count; i++)
+            {
+                // gets the current § without whitespace and the § symbol
+                string currentSection = CleanText.Clean(paragraf[i].FirstChild.InnerText.Replace(" ", ""));
+
+                List<string> lines = new List<string>();
+                // paragraf child nodes
+                XmlNodeList paragrafChildNodes = paragraf[i].ChildNodes;
+                for (int j = 0; j < paragrafChildNodes.Count; j++)
+                {
+                    XmlNodeList child = paragrafChildNodes[j].ChildNodes;
+
+                    for (int k = 0; k < child.Count; k++)
+                    {
+                        if (child[k].HasChildNodes)
+                        {
+                            if (child[k].FirstChild.Name == "Index")
+                            {
+                                foreach (XmlNode item in child[k].ChildNodes)
+                                {
+
+                                    foreach (XmlNode node in item.ChildNodes)
+                                    {
+                                        lines.Add(node.InnerText);
+                                    }
+
+                                }
+                            }
+                            else
+                            {
+                                lines.Add(child[k].InnerText);
+                            }
+
+                        }
+                        else
+                        {
+                            lines.Add(child[k].InnerText);
+                        }
+                    }
+                }
+
+                WriteFile(lines, path, number, year, documentType, currentSection);
+            }
+        }
+
     }
 
 
