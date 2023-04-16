@@ -117,28 +117,35 @@ public static class XMLElementExtractor
         {
             XmlNodeList aendringCentreretParagrafChildren = aendringCentreretParagraf[0].ChildNodes;
             // gets the current § without whitespace and the § symbol
-            string currentSection = CleanText.Clean(aendringCentreretParagrafChildren[0].FirstChild.InnerText.Replace(" ", ""));
-            List<string> lines = new List<string>();
-            for (int i = 0; i < aendringCentreretParagrafChildren.Count; i++)
+
+            if (aendringCentreretParagrafChildren.Count > 0)
             {
-                XmlNode node = aendringCentreretParagrafChildren[i];
-
-                if (node.Name == "AendringsNummer")
+                string currentSection = CleanText.Clean(aendringCentreretParagrafChildren[0].FirstChild.InnerText.Replace(" ", ""));
+                List<string> lines = new List<string>();
+                for (int i = 0; i < aendringCentreretParagrafChildren.Count; i++)
                 {
-                    XmlNodeList childNodes = node.ChildNodes;
-                    for (int j = 0; j < childNodes.Count; j++)
+                    XmlNode node = aendringCentreretParagrafChildren[i];
+
+                    if (node.Name == "AendringsNummer")
                     {
-                        XmlNode child = childNodes[j];
-                        lines.Add(child.InnerText);
+                        XmlNodeList childNodes = node.ChildNodes;
+                        for (int j = 0; j < childNodes.Count; j++)
+                        {
+                            XmlNode child = childNodes[j];
+                            lines.Add(child.InnerText);
+                        }
                     }
-                }
-                else
-                {
-                    lines.Add(node.InnerText);
-                }
+                    else
+                    {
+                        lines.Add(node.InnerText);
+                    }
 
+                }
+                WriteFile(lines, path, number, year, documentType, currentSection);
             }
-            WriteFile(lines, path, number, year, documentType, currentSection);
+            
+
+            
         }      
     }
 

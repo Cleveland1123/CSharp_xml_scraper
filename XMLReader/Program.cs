@@ -1,26 +1,24 @@
 ﻿
 
 
+int docYear = 2008;
 
-int docYear = 2023;
-
-for (int i = 300; i < 365; i++)
+string dataDirectory = $@"C:\Users\Cleve\Desktop\cSharp-xml\XMLReader\data";
+if (Directory.Exists(dataDirectory) == false)
 {
+    Directory.CreateDirectory(dataDirectory);
+}
 
-    string dataDirectory = @"C:\Users\Cleve\Desktop\cSharp-xml\XMLReader\data";
-    if (Directory.Exists(dataDirectory) == false)
-    {
-        Directory.CreateDirectory(dataDirectory);
-    }
+
+for (int i = 172; i < 200; i++)
+{
 
 
     string URL = $"https://www.retsinformation.dk/eli/lta/{docYear}/{i}/xml";
-
     XmlTextReader reader = new XmlTextReader(URL);
     XmlDocument doc = new XmlDocument();
+
     doc.Load(reader);
-
-
 
     string status = doc.GetElementsByTagName("Status").Item(0).InnerText;
     string number = doc.GetElementsByTagName("Number").Item(0).InnerText;
@@ -47,4 +45,8 @@ for (int i = 300; i < 365; i++)
     Thread.Sleep(2000);
 
 
+
 }
+
+
+
