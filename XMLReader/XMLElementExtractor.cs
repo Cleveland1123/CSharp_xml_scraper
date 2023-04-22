@@ -8,18 +8,27 @@ public static class XMLElementExtractor
 
     private static void WriteFile(List<string> lines, string path, string number, string year, string documentType, string currentSection)
     {
-        string pathAndName = path + $"{documentType}{number}-{year}-{currentSection}.txt";
-        using (StreamWriter writetext = new StreamWriter(pathAndName))
+        try
         {
-            //// converts list of strings to string
-            //string str = string.Join(" ", lines);
-            //writetext.WriteLine(str);
-
-            foreach (string line in lines)
+            string pathAndName = path + $"{documentType}{number}-{year}-{currentSection}.txt";
+            using (StreamWriter writetext = new StreamWriter(pathAndName))
             {
-                writetext.WriteLine(line);
+                //// converts list of strings to string
+                //string str = string.Join(" ", lines);
+                //writetext.WriteLine(str);
+
+                foreach (string line in lines)
+                {
+                    writetext.WriteLine(line);
+                }
             }
         }
+        catch (Exception)
+        {
+
+           
+        }
+
     }
 
     /// <summary>

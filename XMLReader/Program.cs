@@ -1,7 +1,7 @@
 ﻿
 
 
-int docYear = 2008;
+int docYear = 2010; 
 
 string dataDirectory = $@"C:\Users\Cleve\Desktop\cSharp-xml\XMLReader\data";
 if (Directory.Exists(dataDirectory) == false)
@@ -9,8 +9,7 @@ if (Directory.Exists(dataDirectory) == false)
     Directory.CreateDirectory(dataDirectory);
 }
 
-
-for (int i = 172; i < 200; i++)
+for (int i = 1; i < 1731; i++)
 {
 
 
